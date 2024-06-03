@@ -1,17 +1,19 @@
+require('dotenv').config()
 const express = require('express');
 const app = express();
 const socketIo = require('socket.io');
+const namespaces = require('./data/namespaces');
 
 app.use(express.static(__dirname + '/public'))
-const expressServer = app.listen(8001);
+const expressServer = app.listen(8000);
 
 const io = socketIo(expressServer);
 
 io.on('connection', (socket) => {
-  console.log(socket.id, "has connected");
+  socket.emit("welcome", "Welcome to the server !");
+  socket.on("clientConnect", (data) => {
+    console.log(socket.id, "has connected");
+  })
 
-  socket.on('newMessageToServer', (dataFromClient) => {
-    console.log(dataFromClient);
-    io.emit('newMessageToClients', {text:dataFromClient.text})
-  });
+  socket.emit('nsList', namespaces)
 });
