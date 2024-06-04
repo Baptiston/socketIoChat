@@ -42,9 +42,18 @@
 
 <script>
   const socket = io('http://localhost:8001');
+  const adminSocket = io('http://localhost:8001/admin');
 
   socket.on('connect', () => {
     console.log('Connect event !!!');
+  });
+
+  adminSocket.on('connect', () => {
+    console.log('Connect admin event !!!');
+  });
+  
+  socket.on('welcomeToChatRoom', (data) => {
+    console.log('Welcome to the main chat room!');
   });
 
   socket.on('newMessageToClients', (newMessage) => {
