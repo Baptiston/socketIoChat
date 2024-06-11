@@ -13,7 +13,12 @@ io.on('connection', (socket) => {
   socket.emit("welcome", "Welcome to the server !");
   socket.on("clientConnect", (data) => {
     console.log(socket.id, "has connected");
+    socket.emit('nsList', namespaces)
   })
+});
 
-  socket.emit('nsList', namespaces)
+namespaces.forEach(namespace => {
+  io.of(namespace.endpoint).on('connection', (socket) => {
+    console.log(`${socket.id} has connected to ${namespace.endpoint}`);
+  })
 });

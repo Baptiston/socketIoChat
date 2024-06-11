@@ -20,6 +20,7 @@ socket.on('nsList', (nsData) => {
   document.querySelector('.namespaces').innerHTML = "";
   nsData.forEach(namespace => {
     document.querySelector('.namespaces').innerHTML += `<div class="namespace" ns="${namespace.endpoint}"><img src="${namespace.image}"></div>`;
+    io(`http://localhost:8000${namespace.endpoint}`)
   });
 
   Array.from(document.getElementsByClassName('namespace')).forEach(element => {
